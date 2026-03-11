@@ -4,223 +4,419 @@
 <meta charset="UTF-8">
 <title>HKB Automations | Enterprise AI Systems</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+<meta name="description" content="HKB Automations — Enterprise AI workflow automation, custom chatbots, voice agents and more.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- PARTICLE BG -->
-<div class="particle-bg" id="particleBg"></div>
+<!-- BG -->
+<div class="bg-canvas" id="bgCanvas"></div>
 
 <!-- INTRO -->
 <div id="intro">
-  <div class="intro-burst">
-    <div class="burst-ring"></div>
-    <div class="burst-ring"></div>
-    <div class="burst-ring"></div>
-    <div class="burst-ring"></div>
+  <div class="intro-rings">
+    <div class="intro-ring"></div>
+    <div class="intro-ring"></div>
+    <div class="intro-ring"></div>
+    <div class="intro-ring"></div>
   </div>
-  <div class="intro-title">THE HKB AUTOMATIONS</div>
-  <div class="intro-sub">Enterprise AI Systems</div>
+  <div class="intro-logo">THE HKB AUTOMATIONS</div>
+  <div class="intro-tagline">Enterprise AI Systems</div>
+  <div class="intro-line"></div>
 </div>
 
 <!-- MODAL -->
-<div id="project-modal" class="modal">
+<div id="modal" class="modal">
   <span class="modal-close" onclick="closeModal()">&times;</span>
-  <img class="modal-content" id="modal-image" src="" alt="Demo">
+  <img class="modal-content" id="modalImg" src="" alt="Project Demo">
 </div>
 
 <!-- NAV -->
 <nav>
   <div class="nav-brand">
-    <strong>THE HKB AUTOMATIONS</strong>
-    <a href="HKB-Automation-Projects.zip" download class="resume-btn">Download My Projects</a>
+    <span class="nav-logo">HKB</span>
+    <div class="nav-divider"></div>
+    <a href="HKB-Automation-Projects.zip" download class="nav-download">Download Projects</a>
   </div>
   <button class="hamburger" id="hamburger" onclick="toggleMenu()">
     <span></span><span></span><span></span>
   </button>
-  <div class="nav-links" id="nav-links">
-    <a href="#projects" onclick="closeMenu()">Projects</a>
-    <a href="#reviews" onclick="closeMenu()">Reviews</a>
-    <a href="#process" onclick="closeMenu()">Process</a>
-    <a href="#pricing" onclick="closeMenu()">Pricing</a>
-    <a href="#about" onclick="closeMenu()">About</a>
-    <a href="#booking" onclick="closeMenu()">Book Call</a>
+  <div class="nav-links" id="navLinks">
+    <a href="#services"  onclick="closeMenu()">Services</a>
+    <a href="#projects"  onclick="closeMenu()">Projects</a>
+    <a href="#reviews"   onclick="closeMenu()">Reviews</a>
+    <a href="#process"   onclick="closeMenu()">Process</a>
+    <a href="#pricing"   onclick="closeMenu()">Pricing</a>
+    <a href="#about"     onclick="closeMenu()">About</a>
+    <a href="#booking"   onclick="closeMenu()">Book Call</a>
   </div>
 </nav>
 
-<!-- ANNOUNCEMENT -->
-<div class="announcement-bar">
-  <div class="announcement-track">
-    <span>• Prices Mentioned Are For Reference Only • For Custom Automations DM Us For Price Confirmation •&nbsp;&nbsp;&nbsp;</span>
-    <span>• Prices Mentioned Are For Reference Only • For Custom Automations DM Us For Price Confirmation •&nbsp;&nbsp;&nbsp;</span>
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span>Prices are indicative only — DM for custom quotes</span>
+    <span>n8n · Make.com · OpenAI · Voiceflow · Vapi.ai · GoHighLevel</span>
+    <span>95% Project Success Rate</span>
+    <span>2+ Years of Enterprise Automation</span>
+    <span>Prices are indicative only — DM for custom quotes</span>
+    <span>n8n · Make.com · OpenAI · Voiceflow · Vapi.ai · GoHighLevel</span>
+    <span>95% Project Success Rate</span>
+    <span>2+ Years of Enterprise Automation</span>
   </div>
 </div>
 
-<!-- PROJECTS -->
+<!-- ═══════════════════════════════ HERO ═══════════════════════ -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <div class="hero-badge-dot"></div>
+      Available for new projects
+    </div>
+    <h1 class="hero-h1">
+      <span class="line1">We Build</span>
+      <span class="line2">AI Automations</span>
+      <span class="line1">That Scale.</span>
+    </h1>
+    <p class="hero-sub">
+      Enterprise-grade workflow automation, intelligent chatbots and voice agents — engineered to eliminate manual work and maximise your ROI.
+    </p>
+    <div class="hero-cta">
+      <a href="#booking" class="btn-gold">Book a Strategy Call</a>
+      <a href="#projects" class="btn-outline">View Our Work</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-num"><span class="counter" data-target="95" data-suffix="%">0%</span></div>
+        <div class="hero-stat-label">Project Success Rate</div>
+      </div>
+      <div>
+        <div class="hero-stat-num"><span class="counter" data-target="120" data-suffix="+">0+</span></div>
+        <div class="hero-stat-label">Hours Saved / Month</div>
+      </div>
+      <div>
+        <div class="hero-stat-num"><span class="counter" data-target="2" data-suffix="+">0+</span></div>
+        <div class="hero-stat-label">Years Experience</div>
+      </div>
+      <div>
+        <div class="hero-stat-num"><span class="counter" data-target="50" data-suffix="+">0+</span></div>
+        <div class="hero-stat-label">Clients Served</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-deco" aria-hidden="true">
+    <div class="hero-deco-ring"></div>
+    <div class="hero-deco-ring"></div>
+    <div class="hero-deco-ring"></div>
+    <div class="hero-deco-center">
+      <div class="hero-deco-diamond"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ SERVICES ══════════════════ -->
+<section id="services">
+  <span class="sec-label sr">What We Do</span>
+  <h2 class="sec-title sr">Our <em>Core Services</em></h2>
+  <div class="sec-rule sr"></div>
+  <div class="services-grid">
+    <div class="service-card sr d1">
+      <span class="service-num">01</span>
+      <span class="service-icon">⚙️</span>
+      <h3>Workflow Automation</h3>
+      <p>End-to-end process automation using n8n and Make.com. Eliminate repetitive tasks, reduce errors, and reclaim hours every week.</p>
+    </div>
+    <div class="service-card sr d2">
+      <span class="service-num">02</span>
+      <span class="service-icon">🤖</span>
+      <h3>Custom AI Chatbots</h3>
+      <p>Intelligent conversational agents built on Voiceflow and OpenAI — trained on your business data, available 24/7.</p>
+    </div>
+    <div class="service-card sr d3">
+      <span class="service-num">03</span>
+      <span class="service-icon">🎙️</span>
+      <h3>AI Voice Agents</h3>
+      <p>Human-like voice agents powered by Vapi.ai that handle calls, qualify leads and book meetings on autopilot.</p>
+    </div>
+    <div class="service-card sr d4">
+      <span class="service-num">04</span>
+      <span class="service-icon">🔗</span>
+      <h3>System Integrations</h3>
+      <p>Seamlessly connect your CRM, email, analytics, and support tools into one unified, automated ecosystem.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ PROJECTS ══════════════════ -->
 <section id="projects">
-  <h2 class="section-title sr"><span>OUR PROJECTS</span></h2>
+  <span class="sec-label sr">Case Studies</span>
+  <h2 class="sec-title sr">Selected <em>Projects</em></h2>
+  <div class="sec-rule sr"></div>
   <div class="projects-grid">
 
-    <div class="project-card case1 sr">
-      <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=700&auto=format" alt="AI Lead">
-      <div class="project-overlay">
+    <div class="project-card sr d1">
+      <img class="project-img" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format" alt="Lead Outreach">
+      <div class="project-body">
+        <span class="project-tag">Lead Automation</span>
         <h3>AI-Powered Lead Outreach</h3>
-        <p>AI-driven lead qualification & email automation using n8n + OpenAI + Airtable + Gmail.</p>
-        <div class="metrics">
-          <span class="counter" data-target="42">0</span>% Conversion &nbsp;|&nbsp;
-          <span class="counter" data-target="80">0</span>% Less Manual Work
+        <p>Built a fully automated lead qualification and personalised email outreach system using n8n, OpenAI, Airtable and Gmail.</p>
+        <div class="project-metrics">
+          <div class="metric">
+            <div class="metric-num"><span class="counter" data-target="42" data-suffix="%">0</span></div>
+            <div class="metric-label">Conversion Lift</div>
+          </div>
+          <div class="metric">
+            <div class="metric-num"><span class="counter" data-target="80" data-suffix="%">0</span></div>
+            <div class="metric-label">Less Manual Work</div>
+          </div>
         </div>
-        <button class="view-btn" onclick="openModal('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200')">View Demo</button>
+        <button class="project-view" onclick="openModal('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1400')">
+          View Demo →
+        </button>
       </div>
     </div>
 
-    <div class="project-card case2 sr">
-      <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=700&auto=format" alt="Client Auto">
-      <div class="project-overlay">
+    <div class="project-card sr d2">
+      <img class="project-img" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format" alt="Onboarding">
+      <div class="project-body">
+        <span class="project-tag">Client Ops</span>
         <h3>Client & Employee Automation</h3>
-        <p>Automated onboarding, record creation, and employee workflows with zero manual effort.</p>
-        <div class="metrics"><span class="counter" data-target="65">0</span>% Faster Onboarding</div>
-        <button class="view-btn" onclick="openModal('https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200')">View Demo</button>
+        <p>Automated the full client onboarding flow and internal employee record management — zero manual data entry.</p>
+        <div class="project-metrics">
+          <div class="metric">
+            <div class="metric-num"><span class="counter" data-target="65" data-suffix="%">0</span></div>
+            <div class="metric-label">Faster Onboarding</div>
+          </div>
+          <div class="metric">
+            <div class="metric-num"><span class="counter" data-target="100" data-suffix="%">0</span></div>
+            <div class="metric-label">Error Reduction</div>
+          </div>
+        </div>
+        <button class="project-view" onclick="openModal('https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1400')">
+          View Demo →
+        </button>
       </div>
     </div>
 
-    <div class="project-card case3 sr">
-      <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=700&auto=format" alt="Enterprise">
-      <div class="project-overlay">
+    <div class="project-card sr d3">
+      <img class="project-img" src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&auto=format" alt="Enterprise">
+      <div class="project-body">
+        <span class="project-tag">Enterprise Ops</span>
         <h3>Enterprise Workflow System</h3>
-        <p>Rebuilt internal ops automation for a scaling tech company with AI + Slack notifications.</p>
-        <div class="metrics">Saved <span class="counter" data-target="120">0</span>+ Hours / Month</div>
-        <button class="view-btn" onclick="openModal('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1200')">View Demo</button>
+        <p>Rebuilt the entire internal operations stack for a scaling tech company — AI content generation, social scheduling and Slack alerting.</p>
+        <div class="project-metrics">
+          <div class="metric">
+            <div class="metric-num"><span class="counter" data-target="120" data-suffix="+">0</span></div>
+            <div class="metric-label">Hours / Month Saved</div>
+          </div>
+          <div class="metric">
+            <div class="metric-num"><span class="counter" data-target="6" data-suffix="x">0</span></div>
+            <div class="metric-label">ROI Multiple</div>
+          </div>
+        </div>
+        <button class="project-view" onclick="openModal('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1400')">
+          View Demo →
+        </button>
       </div>
     </div>
 
   </div>
 </section>
 
-<!-- REVIEWS -->
+<!-- ═══════════════════════════════ REVIEWS ═══════════════════ -->
 <section id="reviews">
-  <h2 class="section-title sr"><span>THE RICH REVIEWS</span></h2>
-  <div class="grid">
-    <div class="card sr">
-      <p>"Hamza built a fully customized automation system that saved us hours every week. Professional, reliable, and extremely skilled — highly recommended."</p>
-      <br><strong style="color:#00f5ff;">— Jackson</strong>
+  <span class="sec-label sr">Social Proof</span>
+  <h2 class="sec-title sr">What Clients <em>Say</em></h2>
+  <div class="sec-rule sr"></div>
+  <div class="reviews-grid">
+
+    <div class="review-card sr d1">
+      <div class="review-stars">
+        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      </div>
+      <p class="review-text">"Hamza built a fully customised automation system that saved us hours every single week. Professional, reliable, and extremely skilled — I would recommend HKB to any business serious about scaling."</p>
+      <div class="review-author">
+        <div class="review-avatar">J</div>
+        <div>
+          <div class="review-name">Jackson</div>
+          <div class="review-role">SaaS Founder</div>
+        </div>
+      </div>
     </div>
-    <div class="card sr">
-      <p>"Outstanding experience with HKB Automations from start to finish. Our workflows are now seamless, efficient, and generating better results."</p>
-      <br><strong style="color:#00f5ff;">— Siara</strong>
+
+    <div class="review-card sr d2">
+      <div class="review-stars">
+        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      </div>
+      <p class="review-text">"Outstanding experience from start to finish. Our workflows are now seamless, efficient, and generating measurably better results. Hamza exceeded every expectation."</p>
+      <div class="review-author">
+        <div class="review-avatar">S</div>
+        <div>
+          <div class="review-name">Siara</div>
+          <div class="review-role">E-Commerce Director</div>
+        </div>
+      </div>
     </div>
-    <div class="card sr">
-      <p>"Exceptional automation expertise and strategic thinking. Hamza delivers real results and truly cares about client success."</p>
-      <br><strong style="color:#00f5ff;">— Lilly</strong>
+
+    <div class="review-card sr d3">
+      <div class="review-stars">
+        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      </div>
+      <p class="review-text">"Exceptional automation expertise and genuine strategic thinking. Hamza delivers real results and truly cares about long-term client success, not just the delivery."</p>
+      <div class="review-author">
+        <div class="review-avatar">L</div>
+        <div>
+          <div class="review-name">Lilly</div>
+          <div class="review-role">Operations Manager</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ PROCESS ═══════════════════ -->
+<section id="process">
+  <span class="sec-label sr">How It Works</span>
+  <h2 class="sec-title sr">Our <em>Process</em></h2>
+  <div class="sec-rule sr"></div>
+  <div class="process-timeline">
+    <div class="process-line-track">
+      <div class="process-line-fill"></div>
+    </div>
+    <div class="process-step">
+      <div class="process-num">01</div>
+      <h3>Discovery</h3>
+      <p>A focused strategy call to map your operations, identify automation opportunities and define clear success metrics.</p>
+    </div>
+    <div class="process-step">
+      <div class="process-num">02</div>
+      <h3>Architecture</h3>
+      <p>We design the full automation blueprint and present it for your approval before a single line of code is written.</p>
+    </div>
+    <div class="process-step">
+      <div class="process-num">03</div>
+      <h3>Build & Test</h3>
+      <p>Precision development followed by rigorous end-to-end testing to guarantee reliability from day one.</p>
+    </div>
+    <div class="process-step">
+      <div class="process-num">04</div>
+      <h3>Deploy & Support</h3>
+      <p>Live deployment, full credential handover and lifetime support so your system never misses a beat.</p>
     </div>
   </div>
 </section>
 
-<!-- PROCESS -->
-<section id="process" class="process-section">
-  <h2 class="section-title sr"><span>PROCESS</span></h2>
-  <div class="process-container">
-    <div class="process-line"></div>
-    <div class="process-step">
-      <div class="process-circle">01</div>
-      <h3>Discovery & Consultation</h3>
-      <p>We start with a scheduled meeting to understand your goals, challenges, and pain points, defining project scope.</p>
-    </div>
-    <div class="process-step">
-      <div class="process-circle">02</div>
-      <h3>Strategy & Wireframing</h3>
-      <p>We create a structured wireframe outlining the solution. After your approval, we refine it into a detailed design.</p>
-    </div>
-    <div class="process-step">
-      <div class="process-circle">03</div>
-      <h3>Development & Testing</h3>
-      <p>Our team develops with precision and conducts thorough testing to ensure performance and seamless experience.</p>
-    </div>
-    <div class="process-step">
-      <div class="process-circle">04</div>
-      <h3>Deployment & Handover</h3>
-      <p>We deploy to your platform, securely transfer credentials, and provide full support for a smooth launch.</p>
-    </div>
-  </div>
-</section>
+<!-- ═══════════════════════════════ PRICING ═══════════════════ -->
+<section id="pricing">
+  <span class="sec-label sr">Investment</span>
+  <h2 class="sec-title sr">Transparent <em>Pricing</em></h2>
+  <div class="sec-rule sr"></div>
+  <div class="pricing-grid">
 
-<!-- PRICING -->
-<section id="pricing" class="pricing-section">
-  <h2 class="section-title sr"><span>PRICING</span></h2>
-  <div class="pricing-wrapper">
-
-    <div class="pricing-card sr">
-      <h3>Starter</h3>
-      <div class="price">$500</div>
-      <p class="price-sub">Focused Automation Build</p>
-      <ul>
+    <div class="pricing-card">
+      <div class="pricing-name">Starter</div>
+      <div class="pricing-price">$500</div>
+      <div class="pricing-sub">One focused automation build</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-features">
         <li>Workflow Automation OR Custom Chatbot</li>
-        <li>Unlimited Integrations</li>
+        <li>Unlimited Platform Integrations</li>
+        <li>Full Documentation</li>
         <li>Lifetime Support</li>
       </ul>
-      <a href="#booking" class="pricing-btn">Start Project</a>
+      <a href="#booking" class="btn-outline">Start Project</a>
     </div>
 
-    <div class="pricing-card featured sr">
-      <div class="popular-tag"></div>
-      <h3>Growth</h3>
-      <div class="price">$1500</div>
-      <p class="price-sub">For Scaling Companies</p>
-      <ul>
-        <li>Custom Automation + Chatbot</li>
+    <div class="pricing-card pricing-featured">
+      <div class="pricing-featured-tag">Most Popular</div>
+      <div class="pricing-name" style="margin-top:28px">Growth</div>
+      <div class="pricing-price">$1,500</div>
+      <div class="pricing-sub">For scaling companies</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-features">
+        <li>Custom Automation + AI Chatbot</li>
         <li>Multi-System Integration</li>
         <li>AI Automation Architecture</li>
-        <li>Custom APIs</li>
+        <li>Custom APIs Built</li>
         <li>Custom Voice Agent</li>
         <li>Lifetime Support</li>
       </ul>
-      <a href="#booking" class="pricing-btn">Scale Now</a>
+      <a href="#booking" class="btn-gold">Scale Now</a>
     </div>
 
-    <div class="pricing-card enterprise sr">
-      <h3>Enterprise</h3>
-      <div class="price">Custom</div>
-      <p class="price-sub">Full Infrastructure Design</p>
-      <ul>
+    <div class="pricing-card pricing-enterprise">
+      <div class="pricing-name">Enterprise</div>
+      <div class="pricing-price">Custom</div>
+      <div class="pricing-sub">Full infrastructure design</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-features">
         <li>End-to-End AI Systems</li>
-        <li>Advanced Architecture</li>
-        <li>Lifetime Support</li>
-        <li>Custom AI Website</li>
-        <li>Ongoing Optimization</li>
+        <li>Advanced Architecture Design</li>
+        <li>Custom AI-Powered Website</li>
+        <li>Ongoing Optimisation</li>
+        <li>Dedicated Lifetime Support</li>
       </ul>
-      <a href="#booking" class="pricing-btn gold-btn">Book Consultation</a>
+      <a href="#booking" class="btn-outline">Book Consultation</a>
     </div>
 
   </div>
 </section>
 
-<!-- ABOUT -->
+<!-- ═══════════════════════════════ ABOUT ════════════════════ -->
 <section id="about">
-  <h2 class="section-title sr"><span>About</span></h2>
-  <div class="card sr">
-    <p>Hamza is the Founder and CEO of THE HKB Automations, a results-driven automation agency dedicated to building tailored systems that help businesses scale efficiently. With over 2 years of hands-on experience in advanced workflow automation and AI integrations, he specializes in designing customized solutions that eliminate manual work, increase operational efficiency, and maximize ROI.</p>
-    <br>
-    <p>At HKB Automations, we leverage powerful platforms such as n8n, Make.com, Relivence.ai, Voiceflow, Vapi.ai, and GoHighLevel to create intelligent automation systems tailored specifically to each client's business model.</p>
-    <br>
-    <p>With a proven 95% project success rate, our approach is built on strategy, precision, and measurable results.</p>
-    <p class="mission">Mission: To make people's work easier, smarter, and more profitable through high-quality automation solutions.</p>
+  <span class="sec-label sr">The Founder</span>
+  <h2 class="sec-title sr">About <em>Hamza</em></h2>
+  <div class="sec-rule sr"></div>
+  <div class="about-layout">
+    <div class="about-text sr-left">
+      <p>Hamza is the Founder and CEO of THE HKB Automations — a results-driven automation agency that builds tailored AI systems helping businesses scale with precision. With over 2 years of hands-on experience in enterprise workflow automation and AI integrations, he designs solutions that eliminate manual work, increase operational efficiency, and deliver measurable ROI.</p>
+      <p>HKB Automations leverages platforms including n8n, Make.com, Relivence.ai, Voiceflow, Vapi.ai and GoHighLevel to create intelligent systems built around each client's specific business model — spanning marketing, sales, customer support, lead generation and operations.</p>
+      <p>With a 95% project success rate built on transparency and precision, clients return to HKB Automations because every system is designed to provide long-term value, not just a short-term fix.</p>
+      <div class="about-mission">
+        "Our mission is to make businesses work smarter — freeing people from repetitive tasks so they can focus on what truly matters."
+      </div>
+    </div>
+    <div class="about-stats sr-right">
+      <div class="about-stat">
+        <div class="about-stat-num"><span class="counter" data-target="95" data-suffix="%">0%</span></div>
+        <div class="about-stat-label">Success Rate</div>
+      </div>
+      <div class="about-stat">
+        <div class="about-stat-num"><span class="counter" data-target="50" data-suffix="+">0+</span></div>
+        <div class="about-stat-label">Projects Delivered</div>
+      </div>
+      <div class="about-stat">
+        <div class="about-stat-num"><span class="counter" data-target="2" data-suffix="+">0+</span></div>
+        <div class="about-stat-label">Years Experience</div>
+      </div>
+      <div class="about-stat">
+        <div class="about-stat-num"><span class="counter" data-target="6" data-suffix=" Platforms">0</span></div>
+        <div class="about-stat-label">Tools Mastered</div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- BOOKING -->
+<!-- ═══════════════════════════════ BOOKING ══════════════════ -->
 <section id="booking">
-  <h2 class="section-title sr"><span>Book a Strategy Call</span></h2>
-  <div class="card sr">
-    <p>Let's build your automation infrastructure.</p>
-    <br>
-    <a href="https://cal.com/hamza-khalil-expyr5/meeting-for-automations" target="_blank">
-      <button class="btn">Book Meeting Now</button>
+  <div class="booking-inner">
+    <span class="sec-label sr">Ready to Scale?</span>
+    <h2 class="sec-title sr">Let's Build Something <em>Extraordinary</em></h2>
+    <div class="sec-rule sr" style="margin:0 auto 40px;"></div>
+    <p class="sr">Book a free strategy call and let's map out exactly how automation can transform your business operations and compound your results.</p>
+    <a href="https://cal.com/hamza-khalil-expyr5/meeting-for-automations" target="_blank" class="btn-gold sr">
+      Book Your Free Call
     </a>
   </div>
 </section>
 
-<footer>© 2026 THE HKB AUTOMATIONS | Hamza Khalil</footer>
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">THE HKB AUTOMATIONS</div>
+  <div class="footer-copy">© 2026 Hamza Khalil — All rights reserved</div>
+</footer>
 
 <script src="script.js"></script>
 </body>
