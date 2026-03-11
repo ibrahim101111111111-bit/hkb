@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HKB Automations | Enterprise AI Systems</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- PARTICLE BG -->
+<div class="particle-bg" id="particleBg"></div>
+
+<!-- INTRO -->
+<div id="intro">
+  <div class="intro-burst">
+    <div class="burst-ring"></div>
+    <div class="burst-ring"></div>
+    <div class="burst-ring"></div>
+    <div class="burst-ring"></div>
+  </div>
+  <div class="intro-title">THE HKB AUTOMATIONS</div>
+  <div class="intro-sub">Enterprise AI Systems</div>
+</div>
+
+<!-- MODAL -->
+<div id="project-modal" class="modal">
+  <span class="modal-close" onclick="closeModal()">&times;</span>
+  <img class="modal-content" id="modal-image" src="" alt="Demo">
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <strong>THE HKB AUTOMATIONS</strong>
+    <a href="HKB-Automation-Projects.zip" download class="resume-btn">Download My Projects</a>
+  </div>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-links" id="nav-links">
+    <a href="#projects" onclick="closeMenu()">Projects</a>
+    <a href="#reviews" onclick="closeMenu()">Reviews</a>
+    <a href="#process" onclick="closeMenu()">Process</a>
+    <a href="#pricing" onclick="closeMenu()">Pricing</a>
+    <a href="#about" onclick="closeMenu()">About</a>
+    <a href="#booking" onclick="closeMenu()">Book Call</a>
+  </div>
+</nav>
+
+<!-- ANNOUNCEMENT -->
+<div class="announcement-bar">
+  <div class="announcement-track">
+    <span>• Prices Mentioned Are For Reference Only • For Custom Automations DM Us For Price Confirmation •&nbsp;&nbsp;&nbsp;</span>
+    <span>• Prices Mentioned Are For Reference Only • For Custom Automations DM Us For Price Confirmation •&nbsp;&nbsp;&nbsp;</span>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <h2 class="section-title sr"><span>OUR PROJECTS</span></h2>
+  <div class="projects-grid">
+
+    <div class="project-card case1 sr">
+      <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=700&auto=format" alt="AI Lead">
+      <div class="project-overlay">
+        <h3>AI-Powered Lead Outreach</h3>
+        <p>AI-driven lead qualification & email automation using n8n + OpenAI + Airtable + Gmail.</p>
+        <div class="metrics">
+          <span class="counter" data-target="42">0</span>% Conversion &nbsp;|&nbsp;
+          <span class="counter" data-target="80">0</span>% Less Manual Work
+        </div>
+        <button class="view-btn" onclick="openModal('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200')">View Demo</button>
+      </div>
+    </div>
+
+    <div class="project-card case2 sr">
+      <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=700&auto=format" alt="Client Auto">
+      <div class="project-overlay">
+        <h3>Client & Employee Automation</h3>
+        <p>Automated onboarding, record creation, and employee workflows with zero manual effort.</p>
+        <div class="metrics"><span class="counter" data-target="65">0</span>% Faster Onboarding</div>
+        <button class="view-btn" onclick="openModal('https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200')">View Demo</button>
+      </div>
+    </div>
+
+    <div class="project-card case3 sr">
+      <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=700&auto=format" alt="Enterprise">
+      <div class="project-overlay">
+        <h3>Enterprise Workflow System</h3>
+        <p>Rebuilt internal ops automation for a scaling tech company with AI + Slack notifications.</p>
+        <div class="metrics">Saved <span class="counter" data-target="120">0</span>+ Hours / Month</div>
+        <button class="view-btn" onclick="openModal('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1200')">View Demo</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <h2 class="section-title sr"><span>THE RICH REVIEWS</span></h2>
+  <div class="grid">
+    <div class="card sr">
+      <p>"Hamza built a fully customized automation system that saved us hours every week. Professional, reliable, and extremely skilled — highly recommended."</p>
+      <br><strong style="color:#00f5ff;">— Jackson</strong>
+    </div>
+    <div class="card sr">
+      <p>"Outstanding experience with HKB Automations from start to finish. Our workflows are now seamless, efficient, and generating better results."</p>
+      <br><strong style="color:#00f5ff;">— Siara</strong>
+    </div>
+    <div class="card sr">
+      <p>"Exceptional automation expertise and strategic thinking. Hamza delivers real results and truly cares about client success."</p>
+      <br><strong style="color:#00f5ff;">— Lilly</strong>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process" class="process-section">
+  <h2 class="section-title sr"><span>PROCESS</span></h2>
+  <div class="process-container">
+    <div class="process-line"></div>
+    <div class="process-step">
+      <div class="process-circle">01</div>
+      <h3>Discovery & Consultation</h3>
+      <p>We start with a scheduled meeting to understand your goals, challenges, and pain points, defining project scope.</p>
+    </div>
+    <div class="process-step">
+      <div class="process-circle">02</div>
+      <h3>Strategy & Wireframing</h3>
+      <p>We create a structured wireframe outlining the solution. After your approval, we refine it into a detailed design.</p>
+    </div>
+    <div class="process-step">
+      <div class="process-circle">03</div>
+      <h3>Development & Testing</h3>
+      <p>Our team develops with precision and conducts thorough testing to ensure performance and seamless experience.</p>
+    </div>
+    <div class="process-step">
+      <div class="process-circle">04</div>
+      <h3>Deployment & Handover</h3>
+      <p>We deploy to your platform, securely transfer credentials, and provide full support for a smooth launch.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" class="pricing-section">
+  <h2 class="section-title sr"><span>PRICING</span></h2>
+  <div class="pricing-wrapper">
+
+    <div class="pricing-card sr">
+      <h3>Starter</h3>
+      <div class="price">$500</div>
+      <p class="price-sub">Focused Automation Build</p>
+      <ul>
+        <li>Workflow Automation OR Custom Chatbot</li>
+        <li>Unlimited Integrations</li>
+        <li>Lifetime Support</li>
+      </ul>
+      <a href="#booking" class="pricing-btn">Start Project</a>
+    </div>
+
+    <div class="pricing-card featured sr">
+      <div class="popular-tag"></div>
+      <h3>Growth</h3>
+      <div class="price">$1500</div>
+      <p class="price-sub">For Scaling Companies</p>
+      <ul>
+        <li>Custom Automation + Chatbot</li>
+        <li>Multi-System Integration</li>
+        <li>AI Automation Architecture</li>
+        <li>Custom APIs</li>
+        <li>Custom Voice Agent</li>
+        <li>Lifetime Support</li>
+      </ul>
+      <a href="#booking" class="pricing-btn">Scale Now</a>
+    </div>
+
+    <div class="pricing-card enterprise sr">
+      <h3>Enterprise</h3>
+      <div class="price">Custom</div>
+      <p class="price-sub">Full Infrastructure Design</p>
+      <ul>
+        <li>End-to-End AI Systems</li>
+        <li>Advanced Architecture</li>
+        <li>Lifetime Support</li>
+        <li>Custom AI Website</li>
+        <li>Ongoing Optimization</li>
+      </ul>
+      <a href="#booking" class="pricing-btn gold-btn">Book Consultation</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <h2 class="section-title sr"><span>About</span></h2>
+  <div class="card sr">
+    <p>Hamza is the Founder and CEO of THE HKB Automations, a results-driven automation agency dedicated to building tailored systems that help businesses scale efficiently. With over 2 years of hands-on experience in advanced workflow automation and AI integrations, he specializes in designing customized solutions that eliminate manual work, increase operational efficiency, and maximize ROI.</p>
+    <br>
+    <p>At HKB Automations, we leverage powerful platforms such as n8n, Make.com, Relivence.ai, Voiceflow, Vapi.ai, and GoHighLevel to create intelligent automation systems tailored specifically to each client's business model.</p>
+    <br>
+    <p>With a proven 95% project success rate, our approach is built on strategy, precision, and measurable results.</p>
+    <p class="mission">Mission: To make people's work easier, smarter, and more profitable through high-quality automation solutions.</p>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section id="booking">
+  <h2 class="section-title sr"><span>Book a Strategy Call</span></h2>
+  <div class="card sr">
+    <p>Let's build your automation infrastructure.</p>
+    <br>
+    <a href="https://cal.com/hamza-khalil-expyr5/meeting-for-automations" target="_blank">
+      <button class="btn">Book Meeting Now</button>
+    </a>
+  </div>
+</section>
+
+<footer>© 2026 THE HKB AUTOMATIONS | Hamza Khalil</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
