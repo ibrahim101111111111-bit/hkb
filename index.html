@@ -2,422 +2,1171 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>HKB Automations | Enterprise AI Systems</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta name="description" content="HKB Automations — Enterprise AI workflow automation, custom chatbots, voice agents and more.">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<title>THE HKB Automations | Enterprise AI Systems</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="HKB Automations — Enterprise AI workflow automation, chatbots, voice agents.">
+
+<!-- Fonts: Clash Display + Cabinet Grotesk -->
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+
+<!-- GSAP + ScrollTrigger -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+<style>
+/* ══════════════════════════════════════════════
+   COLOR PALETTE
+   Base:    #080808 (near black)
+   Surface: #0f0f0f / #141414
+   Accent:  #7c6aff (deep electric violet — premium, unique)
+   Accent2: #b8ff00
+   Text:    #f5f5f0 (warm white)
+   Dim:     rgba(245,245,240,0.45)
+   The lime accent on near-black is rare, premium,
+   and perfectly signals "AI / automation / cutting edge"
+══════════════════════════════════════════════ */
+:root{
+  --acc:    #7c6aff;
+  --acc2:   #5e4fff;
+  --acc-dim:rgba(124,106,255,0.12);
+  --acc-glow:rgba(124,106,255,0.2);
+  --bg:     #080808;
+  --bg2:    #0d0d0d;
+  --bg3:    #131313;
+  --surf:   rgba(255,255,255,0.03);
+  --border: rgba(255,255,255,0.07);
+  --border2:rgba(124,106,255,0.4);
+  --text:   #f5f5f0;
+  --dim:    rgba(245,245,240,0.45);
+  --dim2:   rgba(245,245,240,0.25);
+  --r:      14px;
+  --ease:   cubic-bezier(.16,1,.3,1);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:auto;font-size:16px;}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+}
+::selection{background:var(--acc);color:#080808;}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--acc);border-radius:4px;}
+
+/* ── CURSOR ── */
+#cur,#cur-r{position:fixed;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);border-radius:50%;}
+#cur{width:8px;height:8px;background:var(--acc);transition:width .25s,height .25s;}
+#cur-r{width:32px;height:32px;border:1px solid rgba(124,106,255,0.5);transition:width .3s var(--ease),height .3s var(--ease),left .1s,top .1s;}
+.hovering #cur{width:18px;height:18px;}
+.hovering #cur-r{width:54px;height:54px;border-color:var(--acc);}
+
+/* ── GRAIN ── */
+#grain{
+  position:fixed;inset:0;z-index:9997;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.06'/%3E%3C/svg%3E");
+  opacity:.5;mix-blend-mode:overlay;
+}
+
+/* ══════════════════════════════════════════════
+   LOADER
+══════════════════════════════════════════════ */
+#loader{
+  position:fixed;inset:0;z-index:99998;
+  background:var(--bg);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:28px;
+}
+.loader-logo{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(28px,6vw,64px);
+  font-weight:800;letter-spacing:-1px;
+  color:var(--text);
+  overflow:hidden;
+}
+.loader-logo span{
+  display:inline-block;
+  transform:translateY(110%);
+}
+.loader-logo .acc{color:var(--acc);}
+.loader-bar-wrap{
+  width:200px;height:1px;
+  background:rgba(255,255,255,0.1);
+  border-radius:2px;overflow:hidden;
+}
+.loader-bar{
+  height:100%;width:0%;
+  background:var(--acc);
+  transition:width .05s linear;
+}
+.loader-pct{
+  font-size:11px;letter-spacing:4px;color:var(--dim);
+  font-family:'Syne',sans-serif;
+}
+
+/* ══════════════════════════════════════════════
+   NAV
+══════════════════════════════════════════════ */
+nav{
+  position:fixed;top:0;left:0;width:100%;z-index:1000;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:0 6%;height:72px;
+  transition:background .4s,border-color .4s,backdrop-filter .4s;
+}
+nav.solid{
+  background:rgba(8,8,8,0.92);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{
+  font-family:'Syne',sans-serif;
+  font-size:17px;font-weight:800;letter-spacing:2px;
+  color:var(--text);text-decoration:none;
+}
+.nav-logo span{color:var(--acc);}
+.nav-links{display:flex;align-items:center;gap:2px;}
+.nav-links a{
+  font-size:11px;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--dim);padding:8px 14px;border-radius:6px;
+  text-decoration:none;transition:color .3s,background .3s;
+}
+.nav-links a:hover{color:var(--text);background:rgba(255,255,255,0.05);}
+.nav-cta{
+  font-size:11px;letter-spacing:1.5px;text-transform:uppercase;
+  padding:10px 22px;border-radius:6px;
+  border:1px solid var(--border2);
+  color:var(--acc);text-decoration:none;
+  transition:all .4s var(--ease);
+}
+.nav-cta:hover{background:var(--acc);color:#080808;border-color:var(--acc);box-shadow:0 0 30px var(--acc-glow);}
+
+/* hamburger */
+.burg{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;z-index:1001;}
+.burg span{display:block;width:22px;height:1px;background:var(--text);transition:all .3s;}
+.burg.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+.burg.open span:nth-child(2){opacity:0;}
+.burg.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+.mob-menu{
+  display:none;position:fixed;inset:0;z-index:1000;
+  background:rgba(8,8,8,0.97);backdrop-filter:blur(30px);
+  flex-direction:column;align-items:center;justify-content:center;gap:24px;
+}
+.mob-menu.open{display:flex;}
+.mob-menu a{
+  font-family:'Syne',sans-serif;font-size:clamp(28px,8vw,42px);
+  font-weight:700;color:var(--dim);text-decoration:none;
+  transition:color .3s,transform .3s;letter-spacing:-0.5px;
+}
+.mob-menu a:hover{color:var(--acc);transform:translateX(8px);}
+
+/* ══════════════════════════════════════════════
+   TICKER
+══════════════════════════════════════════════ */
+.ticker{
+  position:relative;z-index:10;
+  background:var(--acc);overflow:hidden;padding:11px 0;
+  margin-top:72px;
+}
+.ticker-track{
+  display:flex;white-space:nowrap;
+  animation:tick 28s linear infinite;
+}
+.ticker-track span{
+  padding-right:60px;font-size:11px;font-weight:600;
+  letter-spacing:2px;text-transform:uppercase;color:#080808;
+  font-family:'Syne',sans-serif;
+}
+.ticker-track span::before{content:"✦  ";}
+@keyframes tick{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+/* ══════════════════════════════════════════════
+   SHARED SECTION STYLES
+══════════════════════════════════════════════ */
+.wrapper{position:relative;z-index:10;}
+section{padding:130px 7%;scroll-margin-top:72px;}
+section:nth-child(even){background:var(--bg2);}
+
+.sec-eyebrow{
+  display:flex;align-items:center;gap:12px;
+  margin-bottom:20px;overflow:hidden;
+}
+.sec-eyebrow span{
+  font-size:10px;letter-spacing:5px;text-transform:uppercase;
+  color:var(--acc);font-family:'Syne',sans-serif;
+  transform:translateY(100%);opacity:0;
+}
+.sec-eyebrow::before{
+  content:"";display:block;width:0;height:1px;
+  background:var(--acc);transition:width .8s var(--ease);
+  flex-shrink:0;
+}
+.sec-eyebrow.active::before{width:40px;}
+
+.sec-h{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(36px,6vw,72px);
+  font-weight:800;line-height:.95;
+  letter-spacing:-2px;margin-bottom:70px;
+  overflow:hidden;
+}
+.sec-h .line{display:block;transform:translateY(110%);opacity:0;}
+.sec-h .acc{color:var(--acc);}
+
+/* ══════════════════════════════════════════════
+   HERO
+══════════════════════════════════════════════ */
+#hero{
+  min-height:100vh;display:flex;align-items:center;
+  padding-top:0;position:relative;overflow:hidden;
+}
+/* BIG BG NUMBER */
+.hero-bg-num{
+  position:absolute;right:-2%;bottom:-5%;
+  font-family:'Syne',sans-serif;font-size:clamp(200px,30vw,400px);
+  font-weight:800;color:transparent;
+  -webkit-text-stroke:1px rgba(255,255,255,0.04);
+  pointer-events:none;user-select:none;line-height:1;
+  letter-spacing:-10px;
+}
+/* FLOATING BADGE */
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 18px;border-radius:40px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,0.04);
+  font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--dim);margin-bottom:36px;
+  transform:translateY(20px);opacity:0;
+  font-family:'Syne',sans-serif;
+}
+.badge-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--acc);
+  box-shadow:0 0 8px var(--acc);
+  animation:dpulse 2s ease infinite;
+}
+@keyframes dpulse{0%,100%{box-shadow:0 0 0 0 rgba(124,106,255,.7);}50%{box-shadow:0 0 0 8px rgba(124,106,255,0);}}
+
+.hero-h1{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(52px,10vw,120px);
+  font-weight:800;line-height:.9;
+  letter-spacing:-3px;margin-bottom:32px;
+}
+.hero-h1 .row{display:block;overflow:hidden;}
+.hero-h1 .row-inner{display:block;transform:translateY(110%);opacity:0;}
+.hero-h1 .acc{color:var(--acc);}
+.hero-h1 .outline{
+  color:transparent;
+  -webkit-text-stroke:2px rgba(245,245,240,0.18);
+  transition:-webkit-text-stroke .3s;
+}
+.hero-h1 .outline:hover{-webkit-text-stroke-color:var(--text);}
+
+.hero-sub{
+  font-size:clamp(15px,1.8vw,18px);
+  color:var(--dim);line-height:1.75;
+  max-width:520px;margin-bottom:52px;
+  transform:translateY(20px);opacity:0;
+}
+.hero-cta{
+  display:flex;gap:16px;flex-wrap:wrap;
+  transform:translateY(20px);opacity:0;
+}
+.btn-acc{
+  padding:16px 40px;border-radius:8px;
+  background:var(--acc);color:#080808;
+  font-family:'Syne',sans-serif;
+  font-weight:700;font-size:12px;letter-spacing:2px;text-transform:uppercase;
+  border:none;cursor:pointer;text-decoration:none;
+  transition:all .4s var(--ease);
+  box-shadow:0 0 0 0 var(--acc-glow);
+}
+.btn-acc:hover{transform:translateY(-4px);box-shadow:0 16px 50px rgba(124,106,255,0.3);}
+.btn-ghost{
+  padding:16px 40px;border-radius:8px;
+  background:transparent;color:var(--text);
+  font-family:'Syne',sans-serif;
+  font-weight:600;font-size:12px;letter-spacing:2px;text-transform:uppercase;
+  border:1px solid var(--border);cursor:pointer;text-decoration:none;
+  transition:all .4s var(--ease);
+}
+.btn-ghost:hover{border-color:rgba(255,255,255,0.3);background:rgba(255,255,255,0.04);transform:translateY(-4px);}
+
+.hero-scroll{
+  position:absolute;bottom:40px;left:7%;
+  display:flex;align-items:center;gap:12px;
+  font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--dim2);opacity:0;
+  font-family:'Syne',sans-serif;
+}
+.scroll-line{
+  width:40px;height:1px;background:var(--dim2);
+  position:relative;overflow:hidden;
+}
+.scroll-line::after{
+  content:"";position:absolute;top:0;left:-100%;
+  width:100%;height:100%;background:var(--acc);
+  animation:scrollLine 2s ease infinite;
+}
+@keyframes scrollLine{0%{left:-100%;}100%{left:100%;}}
+
+.hero-stats{
+  display:flex;gap:0;margin-top:80px;padding-top:40px;
+  border-top:1px solid var(--border);
+  transform:translateY(20px);opacity:0;
+}
+.hstat{
+  flex:1;padding-right:40px;
+  border-right:1px solid var(--border);
+  margin-right:40px;
+}
+.hstat:last-child{border-right:none;margin-right:0;}
+.hstat-n{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(36px,4vw,50px);font-weight:800;
+  color:var(--acc);line-height:1;
+}
+.hstat-l{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);margin-top:6px;}
+
+/* ══════════════════════════════════════════════
+   SERVICES
+══════════════════════════════════════════════ */
+#services{background:var(--bg);}
+.svc-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1px;background:var(--border);
+  border:1px solid var(--border);border-radius:var(--r);overflow:hidden;
+}
+.svc{
+  padding:44px 32px;background:var(--bg);
+  position:relative;overflow:hidden;
+  transition:background .5s var(--ease);
+}
+.svc::after{
+  content:"";position:absolute;bottom:0;left:0;right:0;
+  height:2px;background:var(--acc);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .5s var(--ease);
+}
+.svc:hover{background:rgba(124,106,255,0.03);}
+.svc:hover::after{transform:scaleX(1);}
+.svc-n{
+  font-family:'Syne',sans-serif;font-size:11px;
+  letter-spacing:3px;color:var(--acc);margin-bottom:32px;
+  display:block;
+}
+.svc-icon{font-size:28px;margin-bottom:18px;display:block;}
+.svc h3{
+  font-family:'Syne',sans-serif;
+  font-size:18px;font-weight:700;
+  margin-bottom:12px;letter-spacing:-0.3px;
+}
+.svc p{font-size:13px;color:var(--dim);line-height:1.8;}
+
+/* ══════════════════════════════════════════════
+   PROJECTS
+══════════════════════════════════════════════ */
+#projects{background:var(--bg2);}
+.proj-list{display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.proj{
+  display:grid;grid-template-columns:1fr 1fr;
+  background:var(--bg2);
+  transition:background .5s;cursor:pointer;
+}
+.proj:nth-child(even){direction:rtl;}
+.proj:nth-child(even)>*{direction:ltr;}
+.proj:hover{background:var(--bg3);}
+.proj-img-wrap{
+  position:relative;overflow:hidden;height:400px;
+}
+.proj-img{
+  width:100%;height:100%;object-fit:cover;
+  filter:grayscale(60%) brightness(.75);
+  transform:scale(1.05);
+  transition:transform 1s var(--ease),filter .7s;
+}
+.proj:hover .proj-img{
+  transform:scale(1);
+  filter:grayscale(20%) brightness(.65);
+}
+.proj-img-cover{
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(124,106,255,.08),transparent);
+  opacity:0;transition:opacity .5s;
+}
+.proj:hover .proj-img-cover{opacity:1;}
+
+/* TILT effect handled by JS */
+.proj-body{
+  padding:56px 52px;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.proj-tag{
+  font-family:'Syne',sans-serif;
+  font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--acc);border:1px solid rgba(124,106,255,0.2);
+  display:inline-block;padding:5px 14px;border-radius:4px;
+  margin-bottom:22px;width:fit-content;
+}
+.proj-body h3{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(22px,3vw,36px);font-weight:800;
+  letter-spacing:-1px;line-height:1.1;
+  margin-bottom:16px;overflow:hidden;
+}
+.proj-body h3 .tl{display:block;transform:translateY(100%);}
+.proj-body p{font-size:14px;color:var(--dim);line-height:1.85;margin-bottom:30px;}
+.proj-nums{
+  display:flex;gap:28px;
+  padding:20px 0;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  margin-bottom:28px;
+}
+.pn-n{
+  font-family:'Syne',sans-serif;
+  font-size:30px;font-weight:800;color:var(--acc);line-height:1;
+}
+.pn-l{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-top:4px;}
+.proj-link{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:'Syne',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--text);border:1px solid var(--border);
+  padding:12px 22px;border-radius:6px;
+  width:fit-content;background:none;cursor:pointer;
+  transition:all .4s var(--ease);
+}
+.proj-link:hover{border-color:var(--acc);color:var(--acc);background:rgba(124,106,255,0.04);gap:16px;}
+
+/* ══════════════════════════════════════════════
+   REVIEWS
+══════════════════════════════════════════════ */
+#reviews{background:var(--bg);}
+.rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.rev{
+  padding:40px 34px;background:var(--bg2);
+  border:1px solid var(--border);border-radius:var(--r);
+  position:relative;overflow:hidden;
+  transition:all .5s var(--ease);
+}
+.rev::before{
+  content:'"';
+  position:absolute;top:-20px;left:18px;
+  font-family:'Syne',sans-serif;font-size:110px;font-weight:800;
+  color:rgba(124,106,255,0.05);line-height:1;pointer-events:none;
+}
+.rev:hover{border-color:rgba(124,106,255,0.25);transform:translateY(-6px);box-shadow:0 24px 60px rgba(0,0,0,.5),0 0 40px rgba(124,106,255,0.06);}
+.rev-stars{display:flex;gap:3px;margin-bottom:16px;}
+.rev-stars span{color:var(--acc);font-size:12px;}
+.rev-text{font-size:14px;line-height:1.9;color:var(--dim);font-style:italic;margin-bottom:26px;}
+.rev-author{display:flex;align-items:center;gap:12px;}
+.rev-av{
+  width:40px;height:40px;border-radius:50%;
+  background:rgba(124,106,255,0.1);border:1px solid rgba(124,106,255,0.3);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:var(--acc);
+}
+.rev-name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:.5px;}
+.rev-role{font-size:11px;color:var(--dim);letter-spacing:1px;margin-top:2px;}
+
+/* ══════════════════════════════════════════════
+   PROCESS
+══════════════════════════════════════════════ */
+#process{background:var(--bg2);}
+.proc-wrap{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+  background:var(--border);border:1px solid var(--border);
+  border-radius:var(--r);overflow:hidden;margin-top:10px;
+}
+.proc-step{
+  padding:48px 34px;background:var(--bg2);
+  position:relative;overflow:hidden;transition:background .4s;
+}
+.proc-step:hover{background:rgba(124,106,255,0.025);}
+.proc-step::before{
+  content:"";position:absolute;top:0;left:0;right:0;
+  height:1px;background:var(--acc);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .6s var(--ease);
+}
+.proc-step:hover::before{transform:scaleX(1);}
+.proc-n{
+  font-family:'Syne',sans-serif;
+  font-size:11px;letter-spacing:4px;
+  color:var(--acc);display:block;margin-bottom:30px;
+}
+.proc-step h3{
+  font-family:'Syne',sans-serif;font-size:19px;font-weight:700;
+  margin-bottom:14px;letter-spacing:-.3px;
+}
+.proc-step p{font-size:13px;color:var(--dim);line-height:1.8;}
+
+/* ══════════════════════════════════════════════
+   PRICING
+══════════════════════════════════════════════ */
+#pricing{background:var(--bg);}
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start;}
+.plan{
+  padding:50px 36px;border-radius:var(--r);
+  background:var(--bg2);border:1px solid var(--border);
+  position:relative;overflow:hidden;
+  transition:all .5s var(--ease);
+  transform:translateY(50px);opacity:0;
+}
+.plan.vis{transform:translateY(0);opacity:1;}
+.plan:hover{border-color:rgba(255,255,255,0.15);transform:translateY(-6px);box-shadow:0 24px 80px rgba(0,0,0,.6);}
+.plan-hot{border-color:rgba(124,106,255,0.4);background:rgba(124,106,255,0.03);}
+.plan-hot:hover{box-shadow:0 24px 80px rgba(0,0,0,.6),0 0 50px rgba(124,106,255,0.08);}
+.plan-tag{
+  position:absolute;top:0;left:0;right:0;text-align:center;
+  background:var(--acc);color:#080808;
+  font-family:'Syne',sans-serif;font-size:10px;font-weight:700;
+  letter-spacing:3px;text-transform:uppercase;padding:8px;
+}
+.plan-name{
+  font-family:'Syne',sans-serif;font-size:22px;font-weight:800;
+  letter-spacing:-.5px;margin-bottom:8px;color:var(--text);
+}
+.plan-price{
+  font-family:'Syne',sans-serif;
+  font-size:52px;font-weight:800;line-height:1;
+  color:var(--acc);margin:16px 0 4px;letter-spacing:-2px;
+}
+.plan-hot .plan-name{margin-top:28px;}
+.plan-sub{font-size:12px;color:var(--dim);letter-spacing:.5px;margin-bottom:28px;}
+.plan-div{width:100%;height:1px;background:var(--border);margin-bottom:26px;}
+.plan ul{list-style:none;margin-bottom:34px;}
+.plan ul li{
+  font-size:13px;color:var(--dim);padding:9px 0;
+  border-bottom:1px solid rgba(255,255,255,0.04);
+  display:flex;align-items:center;gap:9px;
+}
+.plan ul li::before{content:"→";color:var(--acc);font-size:11px;flex-shrink:0;}
+.plan-btn{
+  display:block;text-align:center;
+  padding:14px;border-radius:8px;
+  font-family:'Syne',sans-serif;font-weight:700;
+  font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  transition:all .4s var(--ease);text-decoration:none;cursor:pointer;
+  background:transparent;color:var(--text);border:1px solid var(--border);
+}
+.plan-btn:hover{border-color:var(--acc);color:var(--acc);}
+.plan-hot .plan-btn{background:var(--acc);color:#080808;border:none;}
+.plan-hot .plan-btn:hover{box-shadow:0 12px 40px rgba(124,106,255,0.3);transform:translateY(-2px);}
+
+/* ══════════════════════════════════════════════
+   ABOUT
+══════════════════════════════════════════════ */
+#about{background:var(--bg2);}
+.about-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.about-text p{font-size:15px;color:var(--dim);line-height:1.95;margin-bottom:20px;}
+.about-quote{
+  margin-top:32px;padding:26px 28px 26px 32px;
+  border-left:3px solid var(--acc);
+  background:rgba(124,106,255,0.04);border-radius:0 10px 10px 0;
+  font-family:'Syne',sans-serif;font-size:16px;font-weight:500;
+  color:var(--text);line-height:1.7;
+}
+.about-visual{
+  display:grid;grid-template-columns:1fr 1fr;gap:1px;
+  background:var(--border);border:1px solid var(--border);
+  border-radius:var(--r);overflow:hidden;
+}
+.acard{
+  padding:36px 28px;background:var(--bg2);text-align:center;
+  transition:background .4s;
+}
+.acard:hover{background:rgba(124,106,255,0.04);}
+.acard-n{
+  font-family:'Syne',sans-serif;font-size:44px;font-weight:800;
+  color:var(--acc);letter-spacing:-1px;line-height:1;
+}
+.acard-l{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-top:8px;}
+
+/* ══════════════════════════════════════════════
+   BOOKING
+══════════════════════════════════════════════ */
+#booking{
+  background:var(--bg);text-align:center;
+  padding:160px 7%;
+  position:relative;overflow:hidden;
+}
+#booking::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 100%,rgba(124,106,255,0.07),transparent 60%);
+  pointer-events:none;
+}
+.book-inner{max-width:720px;margin:auto;position:relative;z-index:2;}
+.book-inner .hero-h1{font-size:clamp(42px,8vw,88px);margin-bottom:24px;overflow:hidden;}
+.book-inner .hero-h1 .row-inner{transform:none;opacity:1;}
+.book-p{font-size:17px;color:var(--dim);line-height:1.8;margin-bottom:52px;opacity:0;transform:translateY(20px);}
+.book-btn{display:inline-block;opacity:0;transform:translateY(20px);}
+
+/* ══════════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════════ */
+footer{
+  position:relative;z-index:10;
+  padding:34px 7%;background:var(--bg);
+  border-top:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
+}
+.foot-logo{
+  font-family:'Syne',sans-serif;font-size:14px;font-weight:800;
+  letter-spacing:2px;color:var(--text);
+}
+.foot-logo span{color:var(--acc);}
+.foot-c{font-size:11px;color:var(--dim2);letter-spacing:1px;}
+
+/* ══════════════════════════════════════════════
+   MODAL
+══════════════════════════════════════════════ */
+.modal{
+  display:none;position:fixed;inset:0;z-index:9996;
+  background:rgba(8,8,8,.97);backdrop-filter:blur(20px);
+  justify-content:center;align-items:center;
+}
+.modal img{max-width:90%;max-height:88vh;object-fit:contain;border-radius:10px;border:1px solid var(--border);}
+.modal-x{
+  position:absolute;top:22px;right:30px;
+  font-size:28px;color:var(--dim);cursor:pointer;
+  font-family:'Syne',sans-serif;font-weight:800;
+  transition:color .3s;line-height:1;
+}
+.modal-x:hover{color:var(--acc);}
+
+/* ══════════════════════════════════════════════
+   PARALLAX LAYER
+══════════════════════════════════════════════ */
+.parallax-slow{will-change:transform;}
+.parallax-fast{will-change:transform;}
+
+/* ══════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════ */
+@media(max-width:1100px){
+  .svc-grid{grid-template-columns:1fr 1fr;}
+  .proc-wrap{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:900px){
+  .proj{grid-template-columns:1fr;}
+  .proj:nth-child(even){direction:ltr;}
+  .proj-img-wrap{height:260px;}
+  .about-layout{grid-template-columns:1fr;gap:50px;}
+  .price-grid{grid-template-columns:1fr;}
+  .plan{max-width:440px;margin:0 auto;}
+}
+@media(max-width:768px){
+  body{cursor:auto;}
+  #cur,#cur-r{display:none;}
+  nav{padding:0 5%;height:64px;}
+  .nav-links,.nav-cta{display:none;}
+  .burg{display:flex;}
+  .ticker{margin-top:64px;}
+  section{padding:80px 5%;}
+  .hero-h1{font-size:clamp(42px,11vw,65px);letter-spacing:-2px;}
+  .hero-stats{gap:0;flex-wrap:wrap;}
+  .hstat{flex:0 0 50%;margin:0;padding:20px 0;border-right:none;border-bottom:1px solid var(--border);}
+  .hstat:nth-child(2n){padding-left:20px;border-left:1px solid var(--border);}
+  .svc-grid{grid-template-columns:1fr;background:none;border:none;border-radius:0;gap:1px;}
+  .svc{border:1px solid var(--border);border-radius:var(--r);}
+  .proc-wrap{grid-template-columns:1fr;}
+  .rev-grid{grid-template-columns:1fr;}
+  .hero-cta{flex-direction:column;align-items:flex-start;}
+  .btn-acc,.btn-ghost{text-align:center;}
+  footer{flex-direction:column;text-align:center;}
+  .about-visual{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:480px){
+  .hero-h1{font-size:38px;letter-spacing:-1.5px;}
+  .sec-h{font-size:32px;}
+  .plan-price{font-size:42px;}
+  .acard-n{font-size:36px;}
+}
+</style>
 </head>
 <body>
 
-<!-- BG -->
-<div class="bg-canvas" id="bgCanvas"></div>
+<!-- CURSOR -->
+<div id="cur"></div>
+<div id="cur-r"></div>
 
-<!-- INTRO -->
-<div id="intro">
-  <div class="intro-rings">
-    <div class="intro-ring"></div>
-    <div class="intro-ring"></div>
-    <div class="intro-ring"></div>
-    <div class="intro-ring"></div>
+<!-- GRAIN -->
+<div id="grain"></div>
+
+<!-- ═══════════════ LOADER ═══════════════ -->
+<div id="loader">
+  <div class="loader-logo">
+    <span class="l0">T</span><span class="l1">H</span><span class="l2">E</span><span class="l3" style="margin:0 6px"> </span><span class="l4 acc">H</span><span class="l5 acc">K</span><span style="display:inline-block;transform:translateY(110%)" class="acc">B</span>
   </div>
-  <div class="intro-logo">THE HKB AUTOMATIONS</div>
-  <div class="intro-tagline">Enterprise AI Systems</div>
-  <div class="intro-line"></div>
+  <div class="loader-bar-wrap"><div class="loader-bar" id="lbar"></div></div>
+  <div class="loader-pct" id="lpct">0%</div>
 </div>
 
 <!-- MODAL -->
-<div id="modal" class="modal">
-  <span class="modal-close" onclick="closeModal()">&times;</span>
-  <img class="modal-content" id="modalImg" src="" alt="Project Demo">
+<div class="modal" id="modal">
+  <span class="modal-x" onclick="closeModal()">✕</span>
+  <img id="modalImg" src="" alt="">
+</div>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mobMenu">
+  <a href="#services"  onclick="closeMob()">Services</a>
+  <a href="#projects"  onclick="closeMob()">Projects</a>
+  <a href="#reviews"   onclick="closeMob()">Reviews</a>
+  <a href="#process"   onclick="closeMob()">Process</a>
+  <a href="#pricing"   onclick="closeMob()">Pricing</a>
+  <a href="#about"     onclick="closeMob()">About</a>
+  <a href="#booking"   onclick="closeMob()">Book a Call</a>
 </div>
 
 <!-- NAV -->
-<nav>
-  <div class="nav-brand">
-    <span class="nav-logo">HKB</span>
-    <div class="nav-divider"></div>
-    <a href="HKB-Automation-Projects.zip" download class="nav-download">Download Projects</a>
+<nav id="nav">
+  <a class="nav-logo" href="#">THE HKB<span> AUTOMATIONS</span></a>
+  <div class="nav-links">
+    <a href="#services">Services</a>
+    <a href="#projects">Projects</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#process">Process</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#about">About</a>
+    <a href="#booking" class="nav-cta">Book Call</a>
   </div>
-  <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+  <button class="burg" id="burg" onclick="toggleMob()">
     <span></span><span></span><span></span>
   </button>
-  <div class="nav-links" id="navLinks">
-    <a href="#services"  onclick="closeMenu()">Services</a>
-    <a href="#projects"  onclick="closeMenu()">Projects</a>
-    <a href="#reviews"   onclick="closeMenu()">Reviews</a>
-    <a href="#process"   onclick="closeMenu()">Process</a>
-    <a href="#pricing"   onclick="closeMenu()">Pricing</a>
-    <a href="#about"     onclick="closeMenu()">About</a>
-    <a href="#booking"   onclick="closeMenu()">Book Call</a>
-  </div>
 </nav>
 
 <!-- TICKER -->
 <div class="ticker">
   <div class="ticker-track">
-    <span>Prices are indicative only — DM for custom quotes</span>
-    <span>n8n · Make.com · OpenAI · Voiceflow · Vapi.ai · GoHighLevel</span>
-    <span>95% Project Success Rate</span>
-    <span>2+ Years of Enterprise Automation</span>
-    <span>Prices are indicative only — DM for custom quotes</span>
-    <span>n8n · Make.com · OpenAI · Voiceflow · Vapi.ai · GoHighLevel</span>
-    <span>95% Project Success Rate</span>
-    <span>2+ Years of Enterprise Automation</span>
+    <span>Available for new projects</span>
+    <span>n8n · OpenAI · Voiceflow · Vapi.ai · GoHighLevel</span>
+    <span>95% Success Rate</span>
+    <span>DM for custom pricing</span>
+    <span>Available for new projects</span>
+    <span>n8n · OpenAI · Voiceflow · Vapi.ai · GoHighLevel</span>
+    <span>95% Success Rate</span>
+    <span>DM for custom pricing</span>
   </div>
 </div>
 
-<!-- ═══════════════════════════════ HERO ═══════════════════════ -->
+<div class="wrapper">
+
+<!-- ═══════════ HERO ═══════════ -->
 <section id="hero">
-  <div class="hero-inner">
-    <div class="hero-badge">
-      <div class="hero-badge-dot"></div>
-      Available for new projects
-    </div>
+  <div class="hero-bg-num parallax-slow">AI</div>
+  <div style="position:relative;z-index:2;max-width:1000px;">
+    <div class="hero-badge" id="hbadge"><div class="badge-dot"></div>Available for new projects — 2026</div>
     <h1 class="hero-h1">
-      <span class="line1">We Build</span>
-      <span class="line2">AI Automations</span>
-      <span class="line1">That Scale.</span>
+      <span class="row"><span class="row-inner">We Build</span></span>
+      <span class="row"><span class="row-inner acc">AI Systems</span></span>
+      <span class="row"><span class="row-inner outline">That Scale.</span></span>
     </h1>
-    <p class="hero-sub">
-      Enterprise-grade workflow automation, intelligent chatbots and voice agents — engineered to eliminate manual work and maximise your ROI.
-    </p>
-    <div class="hero-cta">
-      <a href="#booking" class="btn-gold">Book a Strategy Call</a>
-      <a href="#projects" class="btn-outline">View Our Work</a>
+    <p class="hero-sub" id="hsub">Enterprise-grade workflow automation, intelligent chatbots and voice agents — engineered to eliminate manual work and maximise your ROI from day one.</p>
+    <div class="hero-cta" id="hcta">
+      <a href="#booking" class="btn-acc">Book a Strategy Call</a>
+      <a href="#projects" class="btn-ghost">View Our Work</a>
     </div>
-    <div class="hero-stats">
-      <div>
-        <div class="hero-stat-num"><span class="counter" data-target="95" data-suffix="%">0%</span></div>
-        <div class="hero-stat-label">Project Success Rate</div>
-      </div>
-      <div>
-        <div class="hero-stat-num"><span class="counter" data-target="120" data-suffix="+">0+</span></div>
-        <div class="hero-stat-label">Hours Saved / Month</div>
-      </div>
-      <div>
-        <div class="hero-stat-num"><span class="counter" data-target="2" data-suffix="+">0+</span></div>
-        <div class="hero-stat-label">Years Experience</div>
-      </div>
-      <div>
-        <div class="hero-stat-num"><span class="counter" data-target="50" data-suffix="+">0+</span></div>
-        <div class="hero-stat-label">Clients Served</div>
-      </div>
+    <div class="hero-stats" id="hstats">
+      <div class="hstat"><div class="hstat-n"><span class="counter" data-t="95" data-s="%">0</span></div><div class="hstat-l">Project Success Rate</div></div>
+      <div class="hstat"><div class="hstat-n"><span class="counter" data-t="120" data-s="+">0</span></div><div class="hstat-l">Hours Saved / Month</div></div>
+      <div class="hstat"><div class="hstat-n"><span class="counter" data-t="50" data-s="+">0</span></div><div class="hstat-l">Projects Delivered</div></div>
+      <div class="hstat"><div class="hstat-n"><span class="counter" data-t="2" data-s="+">0</span></div><div class="hstat-l">Years Experience</div></div>
     </div>
   </div>
-  <div class="hero-deco" aria-hidden="true">
-    <div class="hero-deco-ring"></div>
-    <div class="hero-deco-ring"></div>
-    <div class="hero-deco-ring"></div>
-    <div class="hero-deco-center">
-      <div class="hero-deco-diamond"></div>
-    </div>
-  </div>
+  <div class="hero-scroll" id="hscroll"><div class="scroll-line"></div>Scroll</div>
 </section>
 
-<!-- ═══════════════════════════════ SERVICES ══════════════════ -->
+<!-- ═══════════ SERVICES ═══════════ -->
 <section id="services">
-  <span class="sec-label sr">What We Do</span>
-  <h2 class="sec-title sr">Our <em>Core Services</em></h2>
-  <div class="sec-rule sr"></div>
-  <div class="services-grid">
-    <div class="service-card sr d1">
-      <span class="service-num">01</span>
-      <span class="service-icon">⚙️</span>
-      <h3>Workflow Automation</h3>
-      <p>End-to-end process automation using n8n and Make.com. Eliminate repetitive tasks, reduce errors, and reclaim hours every week.</p>
-    </div>
-    <div class="service-card sr d2">
-      <span class="service-num">02</span>
-      <span class="service-icon">🤖</span>
-      <h3>Custom AI Chatbots</h3>
-      <p>Intelligent conversational agents built on Voiceflow and OpenAI — trained on your business data, available 24/7.</p>
-    </div>
-    <div class="service-card sr d3">
-      <span class="service-num">03</span>
-      <span class="service-icon">🎙️</span>
-      <h3>AI Voice Agents</h3>
-      <p>Human-like voice agents powered by Vapi.ai that handle calls, qualify leads and book meetings on autopilot.</p>
-    </div>
-    <div class="service-card sr d4">
-      <span class="service-num">04</span>
-      <span class="service-icon">🔗</span>
-      <h3>System Integrations</h3>
-      <p>Seamlessly connect your CRM, email, analytics, and support tools into one unified, automated ecosystem.</p>
-    </div>
+  <div class="sec-eyebrow" id="sey1"><span>What We Do</span></div>
+  <h2 class="sec-h" id="sh1"><span class="line">Our Core</span><span class="line"><span class="acc">Services</span></span></h2>
+  <div class="svc-grid">
+    <div class="svc"><span class="svc-n">01</span><span class="svc-icon">⚙️</span><h3>Workflow Automation</h3><p>End-to-end automation using n8n and Make.com. Eliminate repetitive tasks and reclaim hours every single week.</p></div>
+    <div class="svc"><span class="svc-n">02</span><span class="svc-icon">🤖</span><h3>Custom AI Chatbots</h3><p>Intelligent agents built on Voiceflow and OpenAI — trained on your business data, available 24/7.</p></div>
+    <div class="svc"><span class="svc-n">03</span><span class="svc-icon">🎙️</span><h3>AI Voice Agents</h3><p>Human-like voice agents via Vapi.ai that handle calls, qualify leads and book meetings on autopilot.</p></div>
+    <div class="svc"><span class="svc-n">04</span><span class="svc-icon">🔗</span><h3>System Integrations</h3><p>Connect your CRM, email, analytics and support tools into one unified, automated ecosystem.</p></div>
   </div>
 </section>
 
-<!-- ═══════════════════════════════ PROJECTS ══════════════════ -->
+<!-- ═══════════ PROJECTS ═══════════ -->
 <section id="projects">
-  <span class="sec-label sr">Case Studies</span>
-  <h2 class="sec-title sr">Selected <em>Projects</em></h2>
-  <div class="sec-rule sr"></div>
-  <div class="projects-grid">
-
-    <div class="project-card sr d1">
-      <img class="project-img" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format" alt="Lead Outreach">
-      <div class="project-body">
-        <span class="project-tag">Lead Automation</span>
-        <h3>AI-Powered Lead Outreach</h3>
-        <p>Built a fully automated lead qualification and personalised email outreach system using n8n, OpenAI, Airtable and Gmail.</p>
-        <div class="project-metrics">
-          <div class="metric">
-            <div class="metric-num"><span class="counter" data-target="42" data-suffix="%">0</span></div>
-            <div class="metric-label">Conversion Lift</div>
-          </div>
-          <div class="metric">
-            <div class="metric-num"><span class="counter" data-target="80" data-suffix="%">0</span></div>
-            <div class="metric-label">Less Manual Work</div>
-          </div>
+  <div class="sec-eyebrow" id="sey2"><span>Case Studies</span></div>
+  <h2 class="sec-h" id="sh2"><span class="line">Selected</span><span class="line"><span class="acc">Projects</span></span></h2>
+  <div class="proj-list">
+    <div class="proj" id="proj1">
+      <div class="proj-img-wrap"><img class="proj-img parallax-fast" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&auto=format" alt="Lead"><div class="proj-img-cover"></div></div>
+      <div class="proj-body">
+        <span class="proj-tag">Lead Automation</span>
+        <h3><span class="tl">AI-Powered</span><span class="tl">Lead Outreach</span></h3>
+        <p>Fully automated lead qualification and personalised email outreach using n8n, OpenAI, Airtable and Gmail.</p>
+        <div class="proj-nums">
+          <div><div class="pn-n"><span class="counter" data-t="42" data-s="%">0</span></div><div class="pn-l">Conversion Lift</div></div>
+          <div><div class="pn-n"><span class="counter" data-t="80" data-s="%">0</span></div><div class="pn-l">Less Manual Work</div></div>
         </div>
-        <button class="project-view" onclick="openModal('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1400')">
-          View Demo →
-        </button>
+        <button class="proj-link" onclick="openModal('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1400')">View Demo →</button>
       </div>
     </div>
-
-    <div class="project-card sr d2">
-      <img class="project-img" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format" alt="Onboarding">
-      <div class="project-body">
-        <span class="project-tag">Client Ops</span>
-        <h3>Client & Employee Automation</h3>
-        <p>Automated the full client onboarding flow and internal employee record management — zero manual data entry.</p>
-        <div class="project-metrics">
-          <div class="metric">
-            <div class="metric-num"><span class="counter" data-target="65" data-suffix="%">0</span></div>
-            <div class="metric-label">Faster Onboarding</div>
-          </div>
-          <div class="metric">
-            <div class="metric-num"><span class="counter" data-target="100" data-suffix="%">0</span></div>
-            <div class="metric-label">Error Reduction</div>
-          </div>
+    <div class="proj" id="proj2">
+      <div class="proj-img-wrap"><img class="proj-img parallax-fast" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&auto=format" alt="Client"><div class="proj-img-cover"></div></div>
+      <div class="proj-body">
+        <span class="proj-tag">Client Ops</span>
+        <h3><span class="tl">Client & Employee</span><span class="tl">Automation</span></h3>
+        <p>Automated full client onboarding and internal employee record management — zero manual data entry.</p>
+        <div class="proj-nums">
+          <div><div class="pn-n"><span class="counter" data-t="65" data-s="%">0</span></div><div class="pn-l">Faster Onboarding</div></div>
+          <div><div class="pn-n"><span class="counter" data-t="100" data-s="%">0</span></div><div class="pn-l">Error Reduction</div></div>
         </div>
-        <button class="project-view" onclick="openModal('https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1400')">
-          View Demo →
-        </button>
+        <button class="proj-link" onclick="openModal('https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1400')">View Demo →</button>
       </div>
     </div>
-
-    <div class="project-card sr d3">
-      <img class="project-img" src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&auto=format" alt="Enterprise">
-      <div class="project-body">
-        <span class="project-tag">Enterprise Ops</span>
-        <h3>Enterprise Workflow System</h3>
-        <p>Rebuilt the entire internal operations stack for a scaling tech company — AI content generation, social scheduling and Slack alerting.</p>
-        <div class="project-metrics">
-          <div class="metric">
-            <div class="metric-num"><span class="counter" data-target="120" data-suffix="+">0</span></div>
-            <div class="metric-label">Hours / Month Saved</div>
-          </div>
-          <div class="metric">
-            <div class="metric-num"><span class="counter" data-target="6" data-suffix="x">0</span></div>
-            <div class="metric-label">ROI Multiple</div>
-          </div>
+    <div class="proj" id="proj3">
+      <div class="proj-img-wrap"><img class="proj-img parallax-fast" src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=900&auto=format" alt="Enterprise"><div class="proj-img-cover"></div></div>
+      <div class="proj-body">
+        <span class="proj-tag">Enterprise Ops</span>
+        <h3><span class="tl">Enterprise</span><span class="tl">Workflow System</span></h3>
+        <p>Rebuilt full internal operations — AI content generation, social scheduling, Slack alerting and beyond.</p>
+        <div class="proj-nums">
+          <div><div class="pn-n"><span class="counter" data-t="120" data-s="+">0</span></div><div class="pn-l">Hours Saved / Mo</div></div>
+          <div><div class="pn-n"><span class="counter" data-t="6" data-s="x">0</span></div><div class="pn-l">ROI Multiple</div></div>
         </div>
-        <button class="project-view" onclick="openModal('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1400')">
-          View Demo →
-        </button>
+        <button class="proj-link" onclick="openModal('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1400')">View Demo →</button>
       </div>
     </div>
-
   </div>
 </section>
 
-<!-- ═══════════════════════════════ REVIEWS ═══════════════════ -->
+<!-- ═══════════ REVIEWS ═══════════ -->
 <section id="reviews">
-  <span class="sec-label sr">Social Proof</span>
-  <h2 class="sec-title sr">What Clients <em>Say</em></h2>
-  <div class="sec-rule sr"></div>
-  <div class="reviews-grid">
-
-    <div class="review-card sr d1">
-      <div class="review-stars">
-        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
-      </div>
-      <p class="review-text">"Hamza built a fully customised automation system that saved us hours every single week. Professional, reliable, and extremely skilled — I would recommend HKB to any business serious about scaling."</p>
-      <div class="review-author">
-        <div class="review-avatar">J</div>
-        <div>
-          <div class="review-name">Jackson</div>
-          <div class="review-role">SaaS Founder</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="review-card sr d2">
-      <div class="review-stars">
-        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
-      </div>
-      <p class="review-text">"Outstanding experience from start to finish. Our workflows are now seamless, efficient, and generating measurably better results. Hamza exceeded every expectation."</p>
-      <div class="review-author">
-        <div class="review-avatar">S</div>
-        <div>
-          <div class="review-name">Siara</div>
-          <div class="review-role">E-Commerce Director</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="review-card sr d3">
-      <div class="review-stars">
-        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
-      </div>
-      <p class="review-text">"Exceptional automation expertise and genuine strategic thinking. Hamza delivers real results and truly cares about long-term client success, not just the delivery."</p>
-      <div class="review-author">
-        <div class="review-avatar">L</div>
-        <div>
-          <div class="review-name">Lilly</div>
-          <div class="review-role">Operations Manager</div>
-        </div>
-      </div>
-    </div>
-
+  <div class="sec-eyebrow" id="sey3"><span>Social Proof</span></div>
+  <h2 class="sec-h" id="sh3"><span class="line">What Clients</span><span class="line"><span class="acc">Say</span></span></h2>
+  <div class="rev-grid">
+    <div class="rev"><div class="rev-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div><p class="rev-text">"Hamza built a fully customised automation system that saved us hours every week. Professional, reliable and extremely skilled — I'd recommend HKB to any serious business."</p><div class="rev-author"><div class="rev-av">J</div><div><div class="rev-name">Jackson</div><div class="rev-role">SaaS Founder</div></div></div></div>
+    <div class="rev"><div class="rev-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div><p class="rev-text">"Outstanding experience from start to finish. Our workflows are seamless, efficient, and generating measurably better results. Hamza exceeded every expectation."</p><div class="rev-author"><div class="rev-av">S</div><div><div class="rev-name">Siara</div><div class="rev-role">E-Commerce Director</div></div></div></div>
+    <div class="rev"><div class="rev-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div><p class="rev-text">"Exceptional expertise and genuine strategic thinking. Hamza delivers real results and truly cares about long-term client success, not just delivery."</p><div class="rev-author"><div class="rev-av">L</div><div><div class="rev-name">Lilly</div><div class="rev-role">Operations Manager</div></div></div></div>
   </div>
 </section>
 
-<!-- ═══════════════════════════════ PROCESS ═══════════════════ -->
+<!-- ═══════════ PROCESS ═══════════ -->
 <section id="process">
-  <span class="sec-label sr">How It Works</span>
-  <h2 class="sec-title sr">Our <em>Process</em></h2>
-  <div class="sec-rule sr"></div>
-  <div class="process-timeline">
-    <div class="process-line-track">
-      <div class="process-line-fill"></div>
-    </div>
-    <div class="process-step">
-      <div class="process-num">01</div>
-      <h3>Discovery</h3>
-      <p>A focused strategy call to map your operations, identify automation opportunities and define clear success metrics.</p>
-    </div>
-    <div class="process-step">
-      <div class="process-num">02</div>
-      <h3>Architecture</h3>
-      <p>We design the full automation blueprint and present it for your approval before a single line of code is written.</p>
-    </div>
-    <div class="process-step">
-      <div class="process-num">03</div>
-      <h3>Build & Test</h3>
-      <p>Precision development followed by rigorous end-to-end testing to guarantee reliability from day one.</p>
-    </div>
-    <div class="process-step">
-      <div class="process-num">04</div>
-      <h3>Deploy & Support</h3>
-      <p>Live deployment, full credential handover and lifetime support so your system never misses a beat.</p>
-    </div>
+  <div class="sec-eyebrow" id="sey4"><span>How It Works</span></div>
+  <h2 class="sec-h" id="sh4"><span class="line">Our <span class="acc">Process</span></span></h2>
+  <div class="proc-wrap">
+    <div class="proc-step"><span class="proc-n">STEP 01</span><h3>Discovery</h3><p>A focused strategy call to map your operations, identify automation opportunities and define clear success metrics.</p></div>
+    <div class="proc-step"><span class="proc-n">STEP 02</span><h3>Architecture</h3><p>We design the full automation blueprint and present it for your approval before a single line of code is written.</p></div>
+    <div class="proc-step"><span class="proc-n">STEP 03</span><h3>Build & Test</h3><p>Precision development followed by rigorous end-to-end testing to guarantee reliability from day one.</p></div>
+    <div class="proc-step"><span class="proc-n">STEP 04</span><h3>Deploy & Support</h3><p>Live deployment, full credential handover and lifetime support so your system never misses a beat.</p></div>
   </div>
 </section>
 
-<!-- ═══════════════════════════════ PRICING ═══════════════════ -->
+<!-- ═══════════ PRICING ═══════════ -->
 <section id="pricing">
-  <span class="sec-label sr">Investment</span>
-  <h2 class="sec-title sr">Transparent <em>Pricing</em></h2>
-  <div class="sec-rule sr"></div>
-  <div class="pricing-grid">
-
-    <div class="pricing-card">
-      <div class="pricing-name">Starter</div>
-      <div class="pricing-price">$500</div>
-      <div class="pricing-sub">One focused automation build</div>
-      <div class="pricing-divider"></div>
-      <ul class="pricing-features">
-        <li>Workflow Automation OR Custom Chatbot</li>
-        <li>Unlimited Platform Integrations</li>
-        <li>Full Documentation</li>
-        <li>Lifetime Support</li>
-      </ul>
-      <a href="#booking" class="btn-outline">Start Project</a>
-    </div>
-
-    <div class="pricing-card pricing-featured">
-      <div class="pricing-featured-tag">Most Popular</div>
-      <div class="pricing-name" style="margin-top:28px">Growth</div>
-      <div class="pricing-price">$1,500</div>
-      <div class="pricing-sub">For scaling companies</div>
-      <div class="pricing-divider"></div>
-      <ul class="pricing-features">
-        <li>Custom Automation + AI Chatbot</li>
-        <li>Multi-System Integration</li>
-        <li>AI Automation Architecture</li>
-        <li>Custom APIs Built</li>
-        <li>Custom Voice Agent</li>
-        <li>Lifetime Support</li>
-      </ul>
-      <a href="#booking" class="btn-gold">Scale Now</a>
-    </div>
-
-    <div class="pricing-card pricing-enterprise">
-      <div class="pricing-name">Enterprise</div>
-      <div class="pricing-price">Custom</div>
-      <div class="pricing-sub">Full infrastructure design</div>
-      <div class="pricing-divider"></div>
-      <ul class="pricing-features">
-        <li>End-to-End AI Systems</li>
-        <li>Advanced Architecture Design</li>
-        <li>Custom AI-Powered Website</li>
-        <li>Ongoing Optimisation</li>
-        <li>Dedicated Lifetime Support</li>
-      </ul>
-      <a href="#booking" class="btn-outline">Book Consultation</a>
-    </div>
-
+  <div class="sec-eyebrow" id="sey5"><span>Investment</span></div>
+  <h2 class="sec-h" id="sh5"><span class="line">Transparent</span><span class="line"><span class="acc">Pricing</span></span></h2>
+  <div class="price-grid">
+    <div class="plan" id="pl1"><div class="plan-name">Starter</div><div class="plan-price">$500</div><div class="plan-sub">Focused automation build</div><div class="plan-div"></div><ul><li>Workflow Automation OR Chatbot</li><li>Unlimited Integrations</li><li>Full Documentation</li><li>Lifetime Support</li></ul><a href="#booking" class="plan-btn">Start Project</a></div>
+    <div class="plan plan-hot" id="pl2"><div class="plan-tag">Most Popular</div><div class="plan-name">Growth</div><div class="plan-price">$1,500</div><div class="plan-sub">For scaling companies</div><div class="plan-div"></div><ul><li>Custom Automation + AI Chatbot</li><li>Multi-System Integration</li><li>AI Architecture Design</li><li>Custom APIs Built</li><li>Custom Voice Agent</li><li>Lifetime Support</li></ul><a href="#booking" class="plan-btn">Scale Now</a></div>
+    <div class="plan" id="pl3"><div class="plan-name">Enterprise</div><div class="plan-price">Custom</div><div class="plan-sub">Full infrastructure design</div><div class="plan-div"></div><ul><li>End-to-End AI Systems</li><li>Advanced Architecture</li><li>Custom AI Website</li><li>Ongoing Optimisation</li><li>Lifetime Support</li></ul><a href="#booking" class="plan-btn">Book Consultation</a></div>
   </div>
 </section>
 
-<!-- ═══════════════════════════════ ABOUT ════════════════════ -->
+<!-- ═══════════ ABOUT ═══════════ -->
 <section id="about">
-  <span class="sec-label sr">The Founder</span>
-  <h2 class="sec-title sr">About <em>Hamza</em></h2>
-  <div class="sec-rule sr"></div>
+  <div class="sec-eyebrow" id="sey6"><span>The Founder</span></div>
+  <h2 class="sec-h" id="sh6"><span class="line">About <span class="acc">Hamza</span></span></h2>
   <div class="about-layout">
-    <div class="about-text sr-left">
-      <p>Hamza is the Founder and CEO of THE HKB Automations — a results-driven automation agency that builds tailored AI systems helping businesses scale with precision. With over 2 years of hands-on experience in enterprise workflow automation and AI integrations, he designs solutions that eliminate manual work, increase operational efficiency, and deliver measurable ROI.</p>
-      <p>HKB Automations leverages platforms including n8n, Make.com, Relivence.ai, Voiceflow, Vapi.ai and GoHighLevel to create intelligent systems built around each client's specific business model — spanning marketing, sales, customer support, lead generation and operations.</p>
-      <p>With a 95% project success rate built on transparency and precision, clients return to HKB Automations because every system is designed to provide long-term value, not just a short-term fix.</p>
-      <div class="about-mission">
-        "Our mission is to make businesses work smarter — freeing people from repetitive tasks so they can focus on what truly matters."
-      </div>
+    <div class="about-text" id="atxt">
+      <p>Hamza is the Founder and CEO of THE HKB Automations — a results-driven agency building tailored AI systems that help businesses scale with precision. With over 2 years of hands-on experience in enterprise workflow automation and AI integrations.</p>
+      <p>HKB Automations leverages n8n, Make.com, Relivence.ai, Voiceflow, Vapi.ai and GoHighLevel — spanning marketing, sales, customer support, lead generation and operations.</p>
+      <p>With a 95% project success rate built on transparency and precision, clients return because every system is designed for long-term value, not just a short-term fix.</p>
+      <div class="about-quote">"Our mission is to make businesses work smarter — freeing people from repetitive tasks so they can focus on what truly matters."</div>
     </div>
-    <div class="about-stats sr-right">
-      <div class="about-stat">
-        <div class="about-stat-num"><span class="counter" data-target="95" data-suffix="%">0%</span></div>
-        <div class="about-stat-label">Success Rate</div>
-      </div>
-      <div class="about-stat">
-        <div class="about-stat-num"><span class="counter" data-target="50" data-suffix="+">0+</span></div>
-        <div class="about-stat-label">Projects Delivered</div>
-      </div>
-      <div class="about-stat">
-        <div class="about-stat-num"><span class="counter" data-target="2" data-suffix="+">0+</span></div>
-        <div class="about-stat-label">Years Experience</div>
-      </div>
-      <div class="about-stat">
-        <div class="about-stat-num"><span class="counter" data-target="6" data-suffix=" Platforms">0</span></div>
-        <div class="about-stat-label">Tools Mastered</div>
-      </div>
+    <div class="about-visual" id="avis">
+      <div class="acard"><div class="acard-n"><span class="counter" data-t="95" data-s="%">0</span></div><div class="acard-l">Success Rate</div></div>
+      <div class="acard"><div class="acard-n"><span class="counter" data-t="50" data-s="+">0</span></div><div class="acard-l">Projects</div></div>
+      <div class="acard"><div class="acard-n"><span class="counter" data-t="2" data-s="+">0</span></div><div class="acard-l">Years Exp</div></div>
+      <div class="acard"><div class="acard-n"><span class="counter" data-t="6" data-s="">0</span></div><div class="acard-l">Platforms</div></div>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════════════════ BOOKING ══════════════════ -->
+<!-- ═══════════ BOOKING ═══════════ -->
 <section id="booking">
-  <div class="booking-inner">
-    <span class="sec-label sr">Ready to Scale?</span>
-    <h2 class="sec-title sr">Let's Build Something <em>Extraordinary</em></h2>
-    <div class="sec-rule sr" style="margin:0 auto 40px;"></div>
-    <p class="sr">Book a free strategy call and let's map out exactly how automation can transform your business operations and compound your results.</p>
-    <a href="https://cal.com/hamza-khalil-expyr5/meeting-for-automations" target="_blank" class="btn-gold sr">
-      Book Your Free Call
-    </a>
+  <div class="book-inner">
+    <div class="sec-eyebrow" style="justify-content:center;opacity:1;"><span style="transform:none;opacity:1;">Ready to Scale?</span></div>
+    <h2 class="hero-h1" style="text-align:center;margin-bottom:24px;">
+      <span class="row"><span class="row-inner">Let's Build</span></span>
+      <span class="row"><span class="row-inner acc">Something</span></span>
+      <span class="row"><span class="row-inner outline">Extraordinary.</span></span>
+    </h2>
+    <p class="book-p">Book a free strategy call. We'll map out exactly how automation can transform your operations and multiply your results.</p>
+    <a href="https://cal.com/hamza-khalil-expyr5/meeting-for-automations" target="_blank" class="btn-acc book-btn">Book Your Free Call</a>
   </div>
 </section>
 
-<!-- FOOTER -->
+</div><!-- /wrapper -->
+
 <footer>
-  <div class="footer-logo">THE HKB AUTOMATIONS</div>
-  <div class="footer-copy">© 2026 Hamza Khalil — All rights reserved</div>
+  <div class="foot-logo">THE HKB<span> AUTOMATIONS</span></div>
+  <div class="foot-c">© 2026 Hamza Khalil — All rights reserved</div>
 </footer>
 
-<script src="script.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+/* ══════════════════════════════════════════════
+   LOADER
+══════════════════════════════════════════════ */
+(function(){
+  var bar=document.getElementById('lbar');
+  var pct=document.getElementById('lpct');
+  var n=0;
+  var iv=setInterval(function(){
+    n+=Math.random()*4+1;
+    if(n>=100){n=100;clearInterval(iv);startSite();}
+    bar.style.width=n+'%';
+    pct.textContent=Math.floor(n)+'%';
+  },40);
+
+  // Animate logo letters
+  gsap.to('.loader-logo span',{
+    y:0,duration:.7,stagger:.07,ease:'power3.out',delay:.1
+  });
+
+  function startSite(){
+    setTimeout(function(){
+      var tl=gsap.timeline();
+      tl.to('#loader',{opacity:0,duration:.8,ease:'power2.inOut'})
+        .add(function(){
+          document.getElementById('loader').style.display='none';
+          initAnimations();
+        });
+    },300);
+  }
+})();
+
+/* ══════════════════════════════════════════════
+   CURSOR
+══════════════════════════════════════════════ */
+(function(){
+  var c=document.getElementById('cur'),r=document.getElementById('cur-r');
+  if(!c)return;
+  var mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;});
+  document.addEventListener('mouseover',function(e){
+    if(e.target.closest('a,button,.proj,.svc,.rev,.plan')){document.body.classList.add('hovering');}
+    else{document.body.classList.remove('hovering');}
+  });
+  function loop(){
+    c.style.left=mx+'px';c.style.top=my+'px';
+    rx+=(mx-rx)*.1;ry+=(my-ry)*.1;
+    r.style.left=rx+'px';r.style.top=ry+'px';
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+/* ══════════════════════════════════════════════
+   NAV
+══════════════════════════════════════════════ */
+window.addEventListener('scroll',function(){
+  document.getElementById('nav').classList.toggle('solid',window.scrollY>50);
+});
+
+/* ══════════════════════════════════════════════
+   MOBILE NAV
+══════════════════════════════════════════════ */
+function toggleMob(){
+  document.getElementById('burg').classList.toggle('open');
+  document.getElementById('mobMenu').classList.toggle('open');
+  document.body.style.overflow=document.getElementById('mobMenu').classList.contains('open')?'hidden':'';
+}
+function closeMob(){
+  document.getElementById('burg').classList.remove('open');
+  document.getElementById('mobMenu').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+/* ══════════════════════════════════════════════
+   SMOOTH SCROLL (Lenis-style with GSAP)
+══════════════════════════════════════════════ */
+var scrollY=0,targetY=0,ease=0.08;
+function smoothScroll(){
+  targetY=window.scrollY;
+  // Update ScrollTrigger
+  ScrollTrigger.update();
+  requestAnimationFrame(smoothScroll);
+}
+requestAnimationFrame(smoothScroll);
+
+/* ══════════════════════════════════════════════
+   ALL ANIMATIONS
+══════════════════════════════════════════════ */
+function initAnimations(){
+
+  /* ── HERO ── */
+  var ht=gsap.timeline({defaults:{ease:'power4.out'}});
+  ht.to('#hbadge',        {opacity:1,y:0,duration:.8,delay:.1})
+    .to('.hero-h1 .row-inner',{y:'0%',opacity:1,duration:1.1,stagger:.1,ease:'power4.out'},'-.4')
+    .to('#hsub',          {opacity:1,y:0,duration:.9},'-.5')
+    .to('#hcta',          {opacity:1,y:0,duration:.8},'-.5')
+    .to('#hstats',        {opacity:1,y:0,duration:.9},'-.4')
+    .to('#hscroll',       {opacity:1,duration:.8},'-.3');
+
+  /* ── PARALLAX BG TEXT ── */
+  gsap.to('.hero-bg-num',{
+    y:'-20%',ease:'none',
+    scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:1.5}
+  });
+
+  /* ── PARALLAX IMAGES ── */
+  document.querySelectorAll('.parallax-fast').forEach(function(img){
+    gsap.to(img,{
+      y:'12%',ease:'none',
+      scrollTrigger:{trigger:img.closest('.proj-img-wrap'),start:'top bottom',end:'bottom top',scrub:1}
+    });
+  });
+
+  /* ── EYEBROWS & SECTION HEADERS ── */
+  ['sey1','sey2','sey3','sey4','sey5','sey6'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(!el)return;
+    ScrollTrigger.create({
+      trigger:el,start:'top 85%',
+      onEnter:function(){
+        el.classList.add('active');
+        gsap.to(el.querySelector('span'),{y:'0%',opacity:1,duration:.7,ease:'power3.out'});
+      }
+    });
+  });
+
+  ['sh1','sh2','sh3','sh4','sh5','sh6'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(!el)return;
+    gsap.to(el.querySelectorAll('.line'),{
+      y:'0%',opacity:1,duration:1,stagger:.1,ease:'power4.out',
+      scrollTrigger:{trigger:el,start:'top 82%'}
+    });
+  });
+
+  /* ── PROJECT TITLE LINES ── */
+  document.querySelectorAll('.proj-body h3 .tl').forEach(function(tl){
+    gsap.to(tl,{
+      y:'0%',duration:.9,ease:'power3.out',
+      scrollTrigger:{trigger:tl,start:'top 85%'}
+    });
+  });
+
+  /* ── SERVICES ── */
+  gsap.from('.svc',{
+    opacity:0,y:50,duration:.8,stagger:.1,ease:'power3.out',
+    scrollTrigger:{trigger:'.svc-grid',start:'top 82%'}
+  });
+
+  /* ── PROJECTS ── */
+  document.querySelectorAll('.proj').forEach(function(p,i){
+    gsap.from(p,{
+      opacity:0,x:i%2===0?-50:50,duration:1.1,ease:'power3.out',
+      scrollTrigger:{trigger:p,start:'top 84%'}
+    });
+  });
+
+  /* ── REVIEWS ── */
+  gsap.from('.rev',{
+    opacity:0,y:60,duration:.8,stagger:.15,ease:'power3.out',
+    scrollTrigger:{trigger:'.rev-grid',start:'top 82%'}
+  });
+
+  /* ── PROCESS ── */
+  gsap.from('.proc-step',{
+    opacity:0,y:50,duration:.7,stagger:.1,ease:'power3.out',
+    scrollTrigger:{trigger:'.proc-wrap',start:'top 82%'}
+  });
+
+  /* ── PRICING ── */
+  ['pl1','pl2','pl3'].forEach(function(id,i){
+    ScrollTrigger.create({
+      trigger:'#pricing',start:'top 78%',
+      onEnter:function(){
+        setTimeout(function(){
+          document.getElementById(id).classList.add('vis');
+        },i*180);
+      }
+    });
+  });
+
+  /* ── ABOUT ── */
+  gsap.from('#atxt',{opacity:0,x:-60,duration:1.1,ease:'power3.out',scrollTrigger:{trigger:'#about',start:'top 80%'}});
+  gsap.from('#avis',{opacity:0,x:60,duration:1.1,ease:'power3.out',scrollTrigger:{trigger:'#about',start:'top 80%'}});
+
+  /* ── BOOKING ── */
+  gsap.to('.book-p',{opacity:1,y:0,duration:1,ease:'power3.out',scrollTrigger:{trigger:'#booking',start:'top 80%'}});
+  gsap.to('.book-btn',{opacity:1,y:0,duration:.9,delay:.2,ease:'power3.out',scrollTrigger:{trigger:'#booking',start:'top 78%'}});
+
+  /* ── BOOKING HERO TEXT ── */
+  gsap.from('#booking .row-inner',{
+    y:'110%',opacity:0,duration:1.1,stagger:.1,ease:'power4.out',
+    scrollTrigger:{trigger:'#booking',start:'top 80%'}
+  });
+
+  /* ── PROJECT CARD TILT ── */
+  document.querySelectorAll('.proj').forEach(function(card){
+    card.addEventListener('mousemove',function(e){
+      var r=card.getBoundingClientRect();
+      var x=((e.clientX-r.left)/r.width-.5)*8;
+      var y=((e.clientY-r.top)/r.height-.5)*-5;
+      gsap.to(card,{rotationY:x,rotationX:y,duration:.4,ease:'power2.out',transformPerspective:800});
+    });
+    card.addEventListener('mouseleave',function(){
+      gsap.to(card,{rotationY:0,rotationX:0,duration:.7,ease:'power3.out'});
+    });
+  });
+}
+
+/* ══════════════════════════════════════════════
+   COUNTERS
+══════════════════════════════════════════════ */
+var done=new Set();
+new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(!e.isIntersecting||done.has(e.target))return;
+    done.add(e.target);
+    var el=e.target,t=+el.getAttribute('data-t'),s=el.getAttribute('data-s')||'';
+    var st=performance.now(),dur=1600;
+    (function tick(now){
+      var p=Math.min((now-st)/dur,1),ez=1-Math.pow(1-p,3);
+      el.textContent=Math.floor(ez*t)+s;
+      if(p<1)requestAnimationFrame(tick);
+    })(performance.now());
+  });
+},{threshold:.6}).observe&&document.querySelectorAll('.counter').forEach(function(el){
+  new IntersectionObserver(function(ens){ens.forEach(function(e){if(!e.isIntersecting||done.has(e.target))return;done.add(e.target);var el2=e.target,t=+el2.getAttribute('data-t'),s=el2.getAttribute('data-s')||'',st=performance.now(),dur=1600;(function tick(now){var p=Math.min((now-st)/dur,1),ez=1-Math.pow(1-p,3);el2.textContent=Math.floor(ez*t)+s;if(p<1)requestAnimationFrame(tick);})(performance.now());});},{threshold:.6}).observe(el);
+});
+
+/* ══════════════════════════════════════════════
+   MODAL
+══════════════════════════════════════════════ */
+function openModal(src){
+  document.getElementById('modalImg').src=src;
+  document.getElementById('modal').style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  document.getElementById('modal').style.display='none';
+  document.body.style.overflow='';
+}
+document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+</script>
 </body>
 </html>
+
+
+
+
+
+
+
